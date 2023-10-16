@@ -208,6 +208,9 @@ nano /etc/resolv.conf
 nameserver 10.2.2.3 ; IP Yudhistira
 
 ping arjuna.A06.com -c 5
+
+# atau
+
 ping www.arjuna.A06.com -c 5
 ```
 #### Hasil 
@@ -217,21 +220,131 @@ ping www.arjuna.A06.com -c 5
 Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses ke abimanyu.yyy.com dan alias www.abimanyu.yyy.com.
 
 ### Penyelesaian soal 3
+Untuk menyelesaikan soal no 3, caranya sama seperti no 2 namun hanya berbeda domainnya saja. 
+
+```
+apt-get update
+apt-get install bind9 -y
+```
+
+Kemudian, untuk membuat website utama kita harus membuat zone DNS pada file `named.conf.local` dan mengatur konfirgurasi pada `/etc/bind/jarkom/abimanyu.A02.com` seperti dibawah ini :
+
+```
+zone "abimanyu.A06.com" {
+        type master;
+        file "/etc/bind/jarkom/abimanyu.A06.com";
+};
+
+cp /etc/bind/db.local /etc/bind/jarkom/abimanyu.A06.com
+
+$TTL    604800
+@       IN      SOA     abimanyu.A06.com. root.abimanyu.A06.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      abimanyu.A06.com.
+@       IN      A       10.2.3.3 ; IP Abimanyu
+www     IN      CNAME   abimanyu.A06.com.
+
+service bind9 restart
+
+```
+Lalu, melakukan setting nameserver pada client (Nakula dan Sadewa) :
+```
+nano /etc/resolv.conf
+nameserver 10.2.2.3 ; IP Yudhistira
+
+ping abimanyu.A06.com -c 5
+
+# atau
+
+ping www.abimanyu.A06.com -c 5
+```
+
+#### Hasil 
 
 ## Soal 4
 Kemudian, karena terdapat beberapa web yang harus di-deploy, buatlah subdomain parikesit.abimanyu.yyy.com yang diatur DNS-nya di Yudhistira dan mengarah ke Abimanyu.
 
 ### Penyelesaian soal 4
+Untuk membuat subdomain parikesit.abimanyu.yyy.com kita hanya perlu menambahkan subdomain kedalam file `/etc/bind/jarkom/abimanyu.A06.com` seperti berikut ini :
+```
+$TTL    604800
+@       IN      SOA     abimanyu.A06.com. root.abimanyu.A06.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       	IN      NS      abimanyu.A06.com.
+@       	IN      A       10.2.3.3 ; IP Abimanyu
+www     	IN      CNAME   abimanyu.A06.com.
+parikesit 	IN	A	10.2.3.3 ; IP Abimanyu
+
+service bind9 restart
+```
+
+Kemudian untuk membuktikan apakah pembuatan subdomain berhasil maka dapat command `ping parikesit.abimanyu.A06.com` pada client (Nakula dan Sadewa)
+
+#### Hasil
 
 ## Soal 5
 Buat juga reverse domain untuk domain utama. (Abimanyu saja yang direverse)
 
 ### Penyelesaian soal 5
+Untuk membuat reverse domain, maka dibutuhkan pendefinisian zone baru dalam `/etc/bin/named.conf.local`. dan membuat konfigurasi ke dalam `/etc/bind/jarkom/3.2.10.in-addr.arpa`seperti dibawah ini : 
+
+```
+nano /etc/bind/named.conf.local
+
+zone "3.2.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/jarkom/3.2.10.in-addr.arpa";
+};
+
+cp /etc/bind/db.local /etc/bind/jarkom/3.2.10.in-addr.arpa
+
+nano /etc/bind/jarkom/3.2.10.in-addr.arpa
+
+$TTL    604800
+@       IN      SOA     abimanyu.A06.com. root.abimanyu.A06.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+3.2.10.in-addr.arpa.       	IN      NS      abimanyu.A06.com.
+3			       	IN      PTR     abimanyu.A06.com.
+
+service bind9 restart
+
+```
+
+Kemudian untuk mengecek hasilnya pada client bisa menggunakan cara seperti dibawah ini :
+```
+echo 'nameserver 192.168.122.1 > /etc/resolv.conf'
+
+apt-get update
+apt-get install dnsutils
+
+echo 'nameserver 10.2.2.3 > /etc/resolv.conf'
+host -t PTR 10.2.3.3
+```
+
+#### Hasil
+
+
 
 ## Soal 6
 Agar dapat tetap dihubungi ketika DNS Server Yudhistira bermasalah, buat juga Werkudara sebagai DNS Slave untuk domain utama.
 
 ### Penyelesaian soal 6
+
 
 ## Soal 7
 Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatlah subdomain khusus untuk perang yaitu baratayuda.abimanyu.yyy.com dengan alias www.baratayuda.abimanyu.yyy.com yang didelegasikan dari Yudhistira ke Werkudara dengan IP menuju ke Abimanyu dalam folder Baratayuda.
