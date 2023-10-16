@@ -576,7 +576,7 @@ server {
 	}
 }
 
-ln -s /etc/nginx/sites-available/lb-prak2 /etc/nginx/sites-enabled
+ln -s /etc/nginx/sites-available/lb-modul2 /etc/nginx/sites-enabled
 ```
 
 Setelah itu buatlah konfigurasi pada masing-masing node worker sebagai berikut : 
