@@ -165,6 +165,10 @@ echo 'nameserver 192.168.122.1' > /etc/resolv.conf
 ping google.com
 ```
 
+#### Hasil 
+
+<img width="580" alt="no1 yudhis" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/83b76a66-508f-4b80-bb52-ccbd9e3e5314">
+
 ## Soal 2
 Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan alias www.arjuna.yyy.com dengan yyy merupakan kode kelompok.
 
@@ -214,6 +218,10 @@ ping arjuna.A06.com -c 5
 ping www.arjuna.A06.com -c 5
 ```
 #### Hasil 
+
+<img width="418" alt="2 nakula" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/2dfd5f8c-fe9a-4e3f-b7a4-c7f7a935b4ed"><br />
+
+<img width="418" alt="2 sadewa" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/94fab883-a7f4-4829-8831-cbbaf1956660">
 
 
 ## Soal 3
@@ -266,6 +274,10 @@ ping www.abimanyu.A06.com -c 5
 
 #### Hasil 
 
+<img width="420" alt="3 nakula" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/2683a38e-d1f4-4cd1-9d2c-ad00d5e80f7f"><br />
+
+<img width="414" alt="3 sadewa" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/79fd701b-fb3c-40b3-b662-250b6a20a401">
+
 ## Soal 4
 Kemudian, karena terdapat beberapa web yang harus di-deploy, buatlah subdomain parikesit.abimanyu.yyy.com yang diatur DNS-nya di Yudhistira dan mengarah ke Abimanyu.
 
@@ -291,6 +303,8 @@ service bind9 restart
 Kemudian untuk membuktikan apakah pembuatan subdomain berhasil maka dapat command `ping parikesit.abimanyu.A06.com` pada client (Nakula dan Sadewa)
 
 #### Hasil
+
+<img width="440" alt="no4" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/96b0ced6-9472-406a-94cb-00d5d7896b26">
 
 ## Soal 5
 Buat juga reverse domain untuk domain utama. (Abimanyu saja yang direverse)
@@ -337,6 +351,11 @@ host -t PTR 10.2.3.3
 ```
 
 #### Hasil
+
+<img width="338" alt="5 nakula" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/5c45997a-8b31-40b9-ac58-7d99b84a0937">
+<br />
+
+<img width="342" alt="5 sadewa" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/88614b39-f59b-4527-ab8f-725dbe50f950">
 
 ## Soal 6
 Agar dapat tetap dihubungi ketika DNS Server Yudhistira bermasalah, buat juga Werkudara sebagai DNS Slave untuk domain utama.
@@ -399,6 +418,10 @@ ping www.abimanyu.A06.com -c 5
 Setelah itu jangan lupa untuk melakukan restart kembali pada DNS Master dengan command `service bind9 restart` dan `echo 'nameserver 10.2.2.3' > /etc/resolv.conf` pada kedua client.
 
 #### Hasil 
+
+<img width="419" alt="6 nakula" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/3442a182-aa75-4e65-9c13-aeb20c3d4a91"><br />
+
+<img width="414" alt="6 sadewa" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/851a6b11-f35d-4992-abc1-a316407a3253">
 
 ## Soal 7
 Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatlah subdomain khusus untuk perang yaitu baratayuda.abimanyu.yyy.com dengan alias www.baratayuda.abimanyu.yyy.com yang didelegasikan dari Yudhistira ke Werkudara dengan IP menuju ke Abimanyu dalam folder Baratayuda.
@@ -486,6 +509,10 @@ ping www.baratayuda.abimanyu.A06.com -c 5
 
 #### Hasil
 
+<img width="441" alt="7 nakula" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/728a7fde-98a4-4e34-ba20-e291ae10cb5f"><br />
+
+<img width="439" alt="7 sadewa" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/c530e35c-1c90-4837-8c08-23c4b3cb4acf">
+
 ## Soal 8
 Untuk informasi yang lebih spesifik mengenai Ranjapan Baratayuda, buatlah subdomain melalui Werkudara dengan akses rjp.baratayuda.abimanyu.yyy.com dengan alias www.rjp.baratayuda.abimanyu.yyy.com yang mengarah ke Abimanyu.
 
@@ -513,6 +540,10 @@ ping www.rjp.baratayuda.abimanyu.A06.com -c 5
 ```
 
 #### Hasil
+
+<img width="461" alt="8 nakula" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/7d529732-5c31-4106-b076-eaf4c1b5a9b9"><br />
+
+<img width="487" alt="8 sadewa" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/f35cd746-2c83-4abb-89a3-a039bd4461aa">
 
 ## Soal 9
 Arjuna merupakan suatu Load Balancer Nginx dengan tiga worker (yang juga menggunakan nginx sebagai webserver) yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Lakukan deployment pada masing-masing worker.
