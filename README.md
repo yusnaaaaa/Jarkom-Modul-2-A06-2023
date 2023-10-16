@@ -675,3 +675,63 @@ Lalu, untuk mengetahui hasilnya dapat menggunakan command seperti dibawah ini pa
 
 #### Hasil
 
+## Soal 11
+Selain menggunakan Nginx, lakukan konfigurasi Apache Web Server pada worker Abimanyu dengan web server www.abimanyu.yyy.com. Pertama dibutuhkan web server dengan DocumentRoot pada /var/www/abimanyu.yyy
+
+### Penyelesaian soal 11
+#### Hasil
+
+## Soal 12
+Setelah itu ubahlah agar url www.abimanyu.yyy.com/index.php/home menjadi www.abimanyu.yyy.com/home.
+
+### Penyelesaian soal 12
+#### Hasil
+
+## Soal 13
+Selain itu, pada subdomain www.parikesit.abimanyu.yyy.com, DocumentRoot disimpan pada /var/www/parikesit.abimanyu.yyy
+
+### Penyelesaian soal 13
+#### Hasil
+
+## Soal 14
+Pada subdomain tersebut folder /public hanya dapat melakukan directory listing sedangkan pada folder /secret tidak dapat diakses (403 Forbidden).
+
+### Penyelesaian soal 14
+#### Hasil
+
+## Soal 15
+Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode pada Apache. Error kode yang perlu diganti adalah 404 Not Found dan 403 Forbidden.
+
+### Penyelesaian soal 15
+#### Hasil
+
+## Soal 16
+Buatlah suatu konfigurasi virtual host agar file asset www.parikesit.abimanyu.yyy.com/public/js menjadi 
+www.parikesit.abimanyu.yyy.com/js 
+
+### Penyelesaian soal 16
+#### Hasil
+
+## Soal 17
+Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
+
+### Penyelesaian soal 17
+#### Hasil
+
+## Soal 18
+Untuk mengaksesnya buatlah autentikasi username berupa “Wayang” dan password “baratayudayyy” dengan yyy merupakan kode kelompok. Letakkan DocumentRoot pada /var/www/rjp.baratayuda.abimanyu.yyy.
+
+### Penyelesaian soal 18
+#### Hasil
+
+## Soal 19
+Buatlah agar setiap kali mengakses IP dari Abimanyu akan secara otomatis dialihkan ke www.abimanyu.yyy.com (alias)
+
+### Penyelesaian soal 19
+#### Hasil
+
+## Soal 20
+Karena website www.parikesit.abimanyu.yyy.com semakin banyak pengunjung dan banyak gambar gambar random, maka ubahlah request gambar yang memiliki substring “abimanyu” akan diarahkan menuju abimanyu.png.
+
+### Penyelesaian soal 20
+#### Hasil
