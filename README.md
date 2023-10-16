@@ -53,9 +53,116 @@
 ## Soal 1
 Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian sebagai berikut. Folder topologi dapat diakses pada drive berikut
 
-Pertama-tama kita buat Topologi terlebih dahulu, disini kelompok kami mendapatkan Topologi No 7 <br />
+1. Pertama-tama kita buat Topologi terlebih dahulu, disini kelompok kami mendapatkan Topologi No 7 <br />
 
 <img width="614" alt="topologi" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/7cdd6ebb-6835-4c32-9bae-586fdd0c6627">
+
+2. Membuat konfigurasi pada setiap node yang ada
+#### Router
+- Router
+```
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+	address 10.2.1.1
+	netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+	address 10.2.2.1
+	netmask 255.255.255.0
+
+auto eth3
+iface eth3 inet static
+	address 10.2.3.1
+	netmask 255.255.255.0
+```
+
+#### DNS Master
+- Yudhistira
+```
+auto eth0
+iface eth0 inet static
+	address 10.2.2.3
+	netmask 255.255.255.0
+	gateway 10.2.2.1
+```
+
+#### DNS Slave
+- Werkudara
+```
+auto eth0
+iface eth0 inet static
+	address 10.2.2.2
+	netmask 255.255.255.0
+	gateway 10.2.2.1
+```
+
+#### Client
+- Nakula
+```
+auto eth0
+iface eth0 inet static
+	address 10.2.1.2
+	netmask 255.255.255.0
+	gateway 10.2.1.1
+```
+- Sadewa
+```
+auto eth0
+iface eth0 inet static
+	address 10.2.1.3
+	netmask 255.255.255.0
+	gateway 10.2.1.1
+```
+
+#### Load Balancer
+- Arjuna
+```
+auto eth0
+iface eth0 inet static
+	address 10.2.1.4
+	netmask 255.255.255.0
+	gateway 10.2.1.1
+```
+
+#### Web Server
+- Prabukusuma
+```
+auto eth0
+iface eth0 inet static
+	address 10.2.3.2
+	netmask 255.255.255.0
+	gateway 10.2.3.1
+```
+- Abimanyu
+```
+auto eth0
+iface eth0 inet static
+	address 10.2.3.3
+	netmask 255.255.255.0
+	gateway 10.2.3.1
+```
+- Wisanggeni
+```
+auto eth0
+iface eth0 inet static
+	address 10.2.3.4
+	netmask 255.255.255.0
+	gateway 10.2.3.1
+```
+
+Menambahkan command yang selalu dijalankan di node tersebut ke file `/root/.bashrc` di bagian paling bawah.
+`iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 10.2.0.0/16`
+
+Untuk memastikan apakah router sudah terhubung ke internet maka dapat membuat file .sh seperti dibawah ini :
+```
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+
+ping google.com
+```
 
 ### Penyelesaian soal 1
 
