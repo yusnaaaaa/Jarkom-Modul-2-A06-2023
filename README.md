@@ -338,28 +338,279 @@ host -t PTR 10.2.3.3
 
 #### Hasil
 
-
-
 ## Soal 6
 Agar dapat tetap dihubungi ketika DNS Server Yudhistira bermasalah, buat juga Werkudara sebagai DNS Slave untuk domain utama.
 
 ### Penyelesaian soal 6
+Pertama-tama yaitu melakukan pengeditan pada zone arjuna dan abimanyu dalam file `/etc/bind/named.conf.local` :
+```
+nano /etc/bind/named.conf.local
 
+zone "arjuna.A06.com" {
+        type master;
+        notify yes;
+        also-notify { 10.2.2.2; }; 
+        allow-transfer { 10.2.2.2; }; 
+        file "/etc/bind/jarkom/arjuna.A06.com";
+};
+
+zone "abimanyu.A06.com" {
+        type master;
+        notify yes;
+        also-notify { 10.2.2.2; }; 
+        allow-transfer { 10.2.2.2; }; 
+        file "/etc/bind/jarkom/abimanyu.A06.com";
+};
+
+service bind9 restart
+```
+Kemudian, edit file `/etc/bind/named.conf.local` pada DNS Slave (Werkudara) seperti dibawah ini :
+```
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+
+apt-get update
+apt-get install bind9 -y
+
+zone "arjuna.A06.com" {
+        type slave;
+       	masters { 10.2.2.3; }; 
+        file "/var/lib/bind/arjuna.A06.com";
+};
+
+zone "abimanyu.A06.com" {
+        type slave;
+       	masters { 10.2.2.3; }; 
+         file "/var/lib/bind/abimanyu.A06.com";
+};
+
+service bind9 restart
+
+```
+Selanjutnya jalankan command `service bind9 stop` pada DNS Master (Yudhistira). Kemudian cek pada client dengan command sebagai berikut :
+```
+echo 'nameserver 10.2.2.2' > /etc/resolv.conf
+
+ping abimanyu.A06.com -c 5
+
+# atau
+
+ping www.abimanyu.A06.com -c 5
+```
+Setelah itu jangan lupa untuk melakukan restart kembali pada DNS Master dengan command `service bind9 restart` dan `echo 'nameserver 10.2.2.3' > /etc/resolv.conf` pada kedua client.
+
+#### Hasil 
 
 ## Soal 7
 Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatlah subdomain khusus untuk perang yaitu baratayuda.abimanyu.yyy.com dengan alias www.baratayuda.abimanyu.yyy.com yang didelegasikan dari Yudhistira ke Werkudara dengan IP menuju ke Abimanyu dalam folder Baratayuda.
 
 ### Penyelesaian soal 7
 
+Mengedit file `/etc/bind/jarkom/abimanyu.A06.com` dan file `/etc/bind/named.conf.local` pada DNS Master sebagai berikut :
+
+```
+echo '
+ns1 		IN  	A  	10.2.2.2 ; IP Werkudara
+baratayuda 	IN   	NS  	ns1 ' > /etc/bind/jarkom/abimanyu.A06.com
+
+nano /etc/bind/named.conf.options
+options {
+	directory "/var/cache/bind";
+
+	dnssec-validation auto;
+
+	auth-nxdomain no;
+	listen-on { any; };
+	allow-query { any; };
+};
+
+nano /etc/bind/named.conf.local
+zone "abimanyu.A06.com" {
+	type master;
+	file "/etc/bind/jarkom/abimanyu.A06.com";
+	allow-transfer { 10.2.2.2; };
+}; 
+
+service bind9 restart
+```
+
+Kemudian edit file `/etc/bind/jarkom/abimanyu.A06.com` dan file `/etc/bind/named.conf.local` pada DNS Slave sebagai berikut : 
+
+```
+nano /etc/bind/named.conf.options
+options {
+	directory "/var/cache/bind";
+
+	dnssec-validation auto;
+
+	auth-nxdomain no;
+	listen-on { any; };
+	allow-query { any; };
+};
+
+nano /etc/bind/named.conf.local
+zone "baratayuda.abimanyu.A06.com" {
+    type master;
+    file "/etc/bind/baratayuda/baratayuda.abimanyu.A06.com";
+};
+
+mkdir -p /etc/bind/baratayuda
+
+cp /etc/bind/db.local /etc/bind/baratayuda/baratayuda.abimanyu.A06.com
+
+nano /etc/bind/baratayuda/baratayuda.abimanyu.A06.com
+$TTL    604800
+@       IN      SOA     baratayuda.abimanyu.A06.com. root.baratayuda.abimanyu.A06.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       	IN      NS      baratayuda.abimanyu.A06.com.
+@		IN      A	10.2.2.2
+www		IN	CNAME	baratayuda.abimanyu.A06.com.
+
+service bind9 restart
+```
+
+Selanjutnya untuk melihat hasilnya dapat menggunakan command seperti dibawah ini pada client :
+```
+echo 'nameserver 10.2.2.2' > /etc/resolv.conf
+
+ping baratayuda.abimanyu.A06.com -c 5
+
+# atau
+
+ping www.baratayuda.abimanyu.A06.com -c 5
+```
+
+#### Hasil
+
 ## Soal 8
 Untuk informasi yang lebih spesifik mengenai Ranjapan Baratayuda, buatlah subdomain melalui Werkudara dengan akses rjp.baratayuda.abimanyu.yyy.com dengan alias www.rjp.baratayuda.abimanyu.yyy.com yang mengarah ke Abimanyu.
 
 ### Penyelesaian soal 8
+Untuk menyelesaikan soal no 8 kita dapat langsung mengedit konfigurasi pada file `/etc/bind/Baratayuda/baratayuda.abimanyu.A06.com` sebagai berikut :
+
+```
+echo '
+rjp		IN      A	10.2.2.2
+www.rjp		IN	A	10.2.2.2
+' >> /etc/bind/baratayuda/baratayuda.abimanyu.A06.com
+
+service bind9 restart
+```
+
+Selanjutnya untuk melihat hasilnya dapat menggunakan command seperti dibawah ini pada client :
+```
+echo 'nameserver 10.2.2.2' > /etc/resolv.conf
+
+ping rjp.baratayuda.abimanyu.A06.com -c 5
+
+# atau
+
+ping www.rjp.baratayuda.abimanyu.A06.com -c 5
+```
+
+#### Hasil
 
 ## Soal 9
 Arjuna merupakan suatu Load Balancer Nginx dengan tiga worker (yang juga menggunakan nginx sebagai webserver) yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Lakukan deployment pada masing-masing worker.
 
 ### Penyelesaian soal 9
+
+Pertama-tama yaitu membuat konfigurasi pada Load Balancer (Arjuna)
+```
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+
+apt-get update
+apt-get install nginx
+
+service nginx restart
+service nginx status
+
+nano /etc/nginx/sites-available/lb-modul2
+upstream myapp {
+	server 10.2.3.2;
+	server 10.2.3.3;
+	server 10.2.3.4;
+}
+
+server {
+	listen 80;
+	server_name arjuna.A09.com;
+
+	location / {
+	proxy_pass http://myapp:8000/;
+	}
+}
+
+ln -s /etc/nginx/sites-available/lb-prak2 /etc/nginx/sites-enabled
+```
+
+Setelah itu buatlah konfigurasi pada masing-masing node worker sebagai berikut : 
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+apt-get update
+apt-get install nginx php php-fpm -y
+
+php -v
+
+mkdir /var/www/modul2
+
+apt-get install git -y
+
+git -c http.sslVerify-false clone https://github.com/yusnaaaaa/arjuna.A06 /var/www/modul2
+
+echo '
+ server {
+        listen 80;
+        root /var/www/modul2;
+        index index.php index.html index.htm;
+        server_name _;
+
+        location / {
+                        try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        }
+
+ location ~ /\.ht {
+                        deny all;
+        }
+
+        error_log /var/log/nginx/modul2_error.log;
+        access_log /var/log/nginx/modul2_access.log;
+ }
+' > /etc/nginx/sites-available/modul2
+
+ln -s /etc/nginx/sites-available/modul2 /etc/nginx/sites-enabled/modul2
+
+rm -rf /etc/nginx/sites-enabled/default
+
+service php7.0-fpm start
+
+service nginx reload
+
+service nginx restart
+
+nginx -t
+```
+
+Kemudian untuk mengetahuinya kita dapat menggunakan lynx dan deploy index.php pada client.
+
+```
+apt-get update
+apt-get install lynx
+
+lynx [ip webserver]
+```
+
+#### Hasil
 
 ## Soal 10
 Kemudian gunakan algoritma Round Robin untuk Load Balancer pada Arjuna. Gunakan server_name pada soal nomor 1. Untuk melakukan pengecekan akses alamat web tersebut kemudian pastikan worker yang digunakan untuk menangani permintaan akan berganti ganti secara acak. Untuk webserver di masing-masing worker wajib berjalan di port 8001-8003. Contoh
@@ -367,3 +618,60 @@ Kemudian gunakan algoritma Round Robin untuk Load Balancer pada Arjuna. Gunakan 
     - Abimanyu:8002
     - Wisanggeni:8003
 ### Penyelesaian soal 10
+Pertama edit konfigurasi pada Load Balancer (Arjuna) seperti dibawah ini :
+```
+echo '
+ upstream myapp  {
+  server 10.2.3.2:8001; 
+  server 10.2.3.3:8002; 
+  server 10.2.3.4:8003;
+ }
+
+ server {
+  listen 80;
+  server_name arjuna.A06.com;
+
+  location / {
+  proxy_pass http://myapp;
+  }
+ }' > /etc/nginx/sites-available/lb-modul2
+
+service nginx restart
+```
+Selanjutnya edit juga konfigurasi pada masing-masing webserver dengan menambahkan port yang telah ditentukan pada soal, dibawah ini merupakan contoh port untuk Prabakusuma : 
+```
+echo "nameserver 192.168.122.1" > /etc/resolv.conf
+
+echo '
+ server {
+        listen 8001;
+        root /var/www/modul2;
+        index index.php index.html index.htm;
+        server_name _;
+
+        location / {
+                        try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        }
+
+ location ~ /\.ht {
+                        deny all;
+        }
+
+        error_log /var/log/nginx/modul2_error.log;
+        access_log /var/log/nginx/modul2_access.log;
+ }
+' > /etc/nginx/sites-available/modul2
+
+service nginx restart
+```
+
+Lalu, untuk mengetahui hasilnya dapat menggunakan command seperti dibawah ini pada client :
+`lynx [ip webserver:port]`
+
+#### Hasil
+
