@@ -31,7 +31,7 @@
 - [Soal 11](#soal-11)
 	- [Penyelesaian soal 11](#penyelesaian-soal-11)
 - [Soal 12](#soal-12)
-	- [Penyelesaian soal 2](#penyelesaian-soal-2)
+	- [Penyelesaian soal 12](#penyelesaian-soal-2)
 - [Soal 13](#soal-13)
 	- [Penyelesaian soal 13](#penyelesaian-soal-13)
 - [Soal 14](#soal-14)
@@ -53,6 +53,7 @@
 ## Soal 1
 Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian sebagai berikut. Folder topologi dapat diakses pada drive berikut
 
+### Penyelesaian soal 1
 1. Pertama-tama kita buat Topologi terlebih dahulu, disini kelompok kami mendapatkan Topologi No 7 <br />
 
 <img width="614" alt="topologi" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/7cdd6ebb-6835-4c32-9bae-586fdd0c6627">
@@ -164,12 +165,53 @@ echo 'nameserver 192.168.122.1' > /etc/resolv.conf
 ping google.com
 ```
 
-### Penyelesaian soal 1
-
 ## Soal 2
 Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan alias www.arjuna.yyy.com dengan yyy merupakan kode kelompok.
 
 ### Penyelesaian soal 2
+Pertama-tama yang harus kita lakukan adalah melakukan update dan install bind9 terlebih dahulu dengan command seperti dibawah ini :
+```
+apt-get update
+apt-get install bind9 -y
+```
+
+Kemudian, untuk membuat website utama kita harus membuat zone DNS pada file `named.conf.local` dan mengatur konfirgurasi pada `/etc/bind/jarkom/arjuna.A02.com` seperti dibawah ini :
+
+```
+zone "arjuna.A06.com" {
+        type master;
+        file "/etc/bind/jarkom/arjuna.A06.com";
+};
+
+mkdir -p /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/arjuna.A06.com
+
+$TTL    604800
+@       IN      SOA     arjuna.A06.com. root.arjuna.A06.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      arjuna.A06.com.
+@       IN      A       10.2.1.4
+www     IN      CNAME   arjuna.A06.com.
+
+service bind9 restart
+
+```
+Lalu, melakukan setting nameserver pada client (Nakula dan Sadewa) :
+```
+nano /etc/resolv.conf
+nameserver 10.2.2.3 ; IP Yudhistira
+
+ping arjuna.A06.com -c 5
+ping www.arjuna.A06.com -c 5
+```
+#### Hasil 
+
 
 ## Soal 3
 Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses ke abimanyu.yyy.com dan alias www.abimanyu.yyy.com.
