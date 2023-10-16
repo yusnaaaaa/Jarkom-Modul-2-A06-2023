@@ -569,7 +569,7 @@ upstream myapp {
 
 server {
 	listen 80;
-	server_name arjuna.A09.com;
+	server_name arjuna.A06.com;
 
 	location / {
 	proxy_pass http://myapp:8000/;
