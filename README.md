@@ -846,6 +846,8 @@ lynx www.parikesit.abimanyu.A06.com
 ```
 
 #### Hasil
+![13](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/dd0c86cb-496f-4ca4-b8c2-1be73d871d9a)
+
 
 ## Soal 14
 Pada subdomain tersebut folder /public hanya dapat melakukan directory listing sedangkan pada folder /secret tidak dapat diakses (403 Forbidden).
@@ -900,6 +902,11 @@ lynx www.parikesit.abimanyu.A06.com
 ```
 
 #### Hasil
+![14](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/5a9703b9-209d-4a2a-ad66-57aca0138930)
+
+![14-b](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/d1100e3b-3b20-4d63-8bd4-30b3102d0bd2)
+
+
 
 ## Soal 15
 Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode pada Apache. Error kode yang perlu diganti adalah 404 Not Found dan 403 Forbidden.
@@ -1005,6 +1012,8 @@ lynx www.parikesit.abimanyu.A06.com/js
 ```
 
 #### Hasil
+![16](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/b0c73a47-2be7-4895-b8d3-2fb2d41fba3e)
+
 
 ## Soal 17
 Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
@@ -1054,6 +1063,11 @@ lynx www.rjp.baratayuda.abimanyu.A06.com:14400
 ```
 
 #### Hasil
+![17-a](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/c8186423-b671-4a5e-9543-e509d70b918f)
+
+![17-b](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/20e91017-62fd-47ba-8af0-f81b548b9df5)
+
+
 
 ## Soal 18
 Untuk mengaksesnya buatlah autentikasi username berupa “Wayang” dan password “baratayudayyy” dengan yyy merupakan kode kelompok. Letakkan DocumentRoot pada /var/www/rjp.baratayuda.abimanyu.yyy.
@@ -1159,6 +1173,9 @@ curl 10.2.3.3
 
 #### Hasil
 
+![19](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/9aead586-7392-4050-8641-098a9930ebd6)
+
+
 ## Soal 20
 Karena website www.parikesit.abimanyu.yyy.com semakin banyak pengunjung dan banyak gambar gambar random, maka ubahlah request gambar yang memiliki substring “abimanyu” akan diarahkan menuju abimanyu.png.
 
@@ -1211,6 +1228,8 @@ lynx www.parikesit.abimanyu.A06.com/abimanyugantenk
 ```
 
 #### Hasil
+
+![50](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/78ce28d4-35a1-415b-a6cc-ba7ae81b073a)
 
 ## Kendala
 - Hal yang sangat menjengkelkan ketika saat mengerjakan tiba-tiba connection loss
