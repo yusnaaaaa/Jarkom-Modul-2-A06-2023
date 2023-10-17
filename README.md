@@ -1129,10 +1129,6 @@ lynx www.rjp.baratayuda.abimanyu.A06.com
 
 #### Hasil
 
-![275283229-5b418a49-8a20-435b-a1ff-8bf2b5a74050](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/24de8865-33f2-4203-bbce-13091c3a3c74)
-
-![275283237-f34c9cf6-c8e9-4881-b886-175c68cb9299](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/1274efbe-f108-4b1f-b5b9-55ba5a472c11)
-
 ## Soal 19
 Buatlah agar setiap kali mengakses IP dari Abimanyu akan secara otomatis dialihkan ke www.abimanyu.yyy.com (alias)
 
