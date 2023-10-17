@@ -846,7 +846,6 @@ lynx www.parikesit.abimanyu.A06.com
 ```
 
 #### Hasil
-![13](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/dd0c86cb-496f-4ca4-b8c2-1be73d871d9a)
 
 
 ## Soal 14
@@ -902,10 +901,6 @@ lynx www.parikesit.abimanyu.A06.com
 ```
 
 #### Hasil
-![14](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/5a9703b9-209d-4a2a-ad66-57aca0138930)
-
-![14-b](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/d1100e3b-3b20-4d63-8bd4-30b3102d0bd2)
-
 
 
 ## Soal 15
@@ -1012,7 +1007,6 @@ lynx www.parikesit.abimanyu.A06.com/js
 ```
 
 #### Hasil
-![16](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/b0c73a47-2be7-4895-b8d3-2fb2d41fba3e)
 
 
 ## Soal 17
@@ -1063,9 +1057,6 @@ lynx www.rjp.baratayuda.abimanyu.A06.com:14400
 ```
 
 #### Hasil
-![17-a](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/c8186423-b671-4a5e-9543-e509d70b918f)
-
-![17-b](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/20e91017-62fd-47ba-8af0-f81b548b9df5)
 
 
 
@@ -1171,10 +1162,6 @@ lynx 10.2.3.3
 curl 10.2.3.3
 ```
 
-#### Hasil
-
-![19](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/9aead586-7392-4050-8641-098a9930ebd6)
-
 
 ## Soal 20
 Karena website www.parikesit.abimanyu.yyy.com semakin banyak pengunjung dan banyak gambar gambar random, maka ubahlah request gambar yang memiliki substring “abimanyu” akan diarahkan menuju abimanyu.png.
@@ -1229,10 +1216,9 @@ lynx www.parikesit.abimanyu.A06.com/abimanyugantenk
 
 #### Hasil
 
-![50](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/78ce28d4-35a1-415b-a6cc-ba7ae81b073a)
-
 ## Kendala
 - Hal yang sangat menjengkelkan ketika saat mengerjakan tiba-tiba connection loss
 - Pemahaman dalam web server perlu dipelajari kembali
 - Saat berbagi file export terkadang dilaptop 1 bisa di laptop 1 nya belum tentu bisa
 - Soal yang diberikan cukup banyak, sehingga agak sulit untuk pembagian dalam pengerjaannya
+- Kami telah mencoba merivisi soal, akan tetapi saat pertama kali bisa untuk di run tidak sempat untuk di screenshoot, saat dicoba lagi tiba2 blank page sehingga kami tidak menyertakan screenshoot karena waktu yang sudah mepet.
