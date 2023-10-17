@@ -639,13 +639,16 @@ lynx [ip webserver]
 ```
 
 #### Hasil
-- Prabukusuma
+- Prabukusuma<br />
+
 <img width="609" alt="9prabukusuma" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/2c2df529-a945-4ce4-a2bf-116be3cda94b"><br />
   
-- Abimanyu
+- Abimanyu<br />
+
 <img width="584" alt="9abimanyu" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/8aad101c-58aa-41bf-a924-c15a29fdda6c"><br />
 
-- Wisanggeni
+- Wisanggeni<br />
+
 <img width="556" alt="9wisanggeni" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/b8f3eadf-3763-45d5-b91c-ee623139aa2c">
 
 ## Soal 10
@@ -712,13 +715,16 @@ Lalu, untuk mengetahui hasilnya dapat menggunakan command seperti dibawah ini pa
 `lynx [ip webserver:port]`
 
 #### Hasil
-- Prabukusuma
+- Prabukusuma<br />
+
 <img width="579" alt="10prabukusuma" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/8aab2064-17ea-4142-a226-4905cbc7123c"><br />
 
-- Abimanyu
+- Abimanyu<br />
+
 <img width="558" alt="10abimanyu" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/4641f6c9-29da-4c34-b3ad-69cdfd39550d"><br />
 
-- Wisanggeni
+- Wisanggeni<br />
+
 <img width="584" alt="10wisanggeni" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/57f5975e-fe13-4f02-8d2b-d0b49afdd0df">
 
 ## Soal 11
