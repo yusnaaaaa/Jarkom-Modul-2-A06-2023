@@ -948,6 +948,13 @@ Hasil
 
 #### Hasil
 
+Error 404
+
+![275279205-97e304bd-59f7-4047-891c-cdc85f000ae9](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/1e137440-0d58-4a96-a0e3-f23aec71c3a8)
+
+Error 403
+![275279363-dd49ae83-d81f-4c7b-9680-c49b8c7d1e44](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/2e26fc2c-5e66-4861-a37f-d1f93fced766)
+
 ## Soal 16
 Buatlah suatu konfigurasi virtual host agar file asset www.parikesit.abimanyu.yyy.com/public/js menjadi 
 www.parikesit.abimanyu.yyy.com/js 
@@ -1113,6 +1120,10 @@ lynx www.rjp.baratayuda.abimanyu.A06.com
 ```
 
 #### Hasil
+
+![275283229-5b418a49-8a20-435b-a1ff-8bf2b5a74050](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/24de8865-33f2-4203-bbce-13091c3a3c74)
+
+![275283237-f34c9cf6-c8e9-4881-b886-175c68cb9299](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/1274efbe-f108-4b1f-b5b9-55ba5a472c11)
 
 ## Soal 19
 Buatlah agar setiap kali mengakses IP dari Abimanyu akan secara otomatis dialihkan ke www.abimanyu.yyy.com (alias)
