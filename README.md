@@ -807,6 +807,7 @@ curl www.abimanyu.A06.com/home //2
 ```
 
 #### Hasil
+![no11](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/bd259207-e17c-40d9-98b4-eac02cba6a9a)
 
 ## Soal 13
 Selain itu, pada subdomain www.parikesit.abimanyu.yyy.com, DocumentRoot disimpan pada /var/www/parikesit.abimanyu.yyy
