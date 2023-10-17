@@ -1221,4 +1221,4 @@ lynx www.parikesit.abimanyu.A06.com/abimanyugantenk
 - Pemahaman dalam web server perlu dipelajari kembali
 - Saat berbagi file export terkadang dilaptop 1 bisa di laptop 1 nya belum tentu bisa
 - Soal yang diberikan cukup banyak, sehingga agak sulit untuk pembagian dalam pengerjaannya
-- Kami telah mencoba merivisi soal, akan tetapi saat pertama kali bisa untuk di run tidak sempat untuk di screenshoot, saat dicoba lagi tiba2 blank page sehingga kami tidak menyertakan screenshoot karena waktu yang sudah mepet.
+- Pada bebrapa soal kami telah mencoba merivisi, akan tetapi saat pertama kali bisa untuk di run tidak sempat untuk di screenshoot, saat dicoba lagi tiba2 blank page sehingga kami tidak menyertakan screenshoot karena waktu yang sudah terbatas.
