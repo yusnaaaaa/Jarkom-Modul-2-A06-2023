@@ -1197,3 +1197,9 @@ lynx www.parikesit.abimanyu.A06.com/abimanyugantenk
 ```
 
 #### Hasil
+
+## Kendala
+- Hal yang sangat menjengkelkan ketika saat mengerjakan tiba-tiba connection loss
+- Pemahaman dalam web server perlu dipelajari kembali
+- Saat berbagi file export terkadang dilaptop 1 bisa di laptop 1 nya belum tentu bisa
+- Soal yang diberikan cukup banyak, sehingga agak sulit untuk pembagian dalam pengerjaannya
