@@ -947,12 +947,12 @@ lynx www.parikesit.abimanyu.A06.com/hehehe
 
 #### Hasil
 
-Error 404
+- Error 404
 
 ![275279205-97e304bd-59f7-4047-891c-cdc85f000ae9](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/1e137440-0d58-4a96-a0e3-f23aec71c3a8)
 
 
-Error 403
+- Error 403
 
 ![275279363-dd49ae83-d81f-4c7b-9680-c49b8c7d1e44](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/114417418/2e26fc2c-5e66-4861-a37f-d1f93fced766)
 
