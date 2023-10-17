@@ -560,7 +560,7 @@ apt-get install nginx
 service nginx restart
 service nginx status
 
-nano /etc/nginx/sites-available/lb-modul2
+echo ' 
 upstream myapp {
 	server 10.2.3.2;
 	server 10.2.3.3;
@@ -574,15 +574,14 @@ server {
 	location / {
 	proxy_pass http://myapp:8000/;
 	}
-}
+} ' > /etc/nginx/sites-available/lb-modul2
 
 ln -s /etc/nginx/sites-available/lb-modul2 /etc/nginx/sites-enabled
+
 ```
 
 Setelah itu buatlah konfigurasi pada masing-masing node worker sebagai berikut : 
 ```
-echo nameserver 192.168.122.1 > /etc/resolv.conf
-
 apt-get update
 apt-get install nginx php php-fpm -y
 
@@ -592,41 +591,39 @@ mkdir /var/www/modul2
 
 apt-get install git -y
 
-git -c http.sslVerify-false clone https://github.com/yusnaaaaa/arjuna.A06 /var/www/modul2
+git -c http.sslVerify=false clone https://github.com/yusnaaaaa/arjuna.A06 /var/www/modul2
 
 echo '
- server {
-        listen 80;
-        root /var/www/modul2;
-        index index.php index.html index.htm;
-        server_name _;
+server {
+	listen 80;
+	root /var/www/modul2;
 
-        location / {
-                        try_files $uri $uri/ /index.php?$query_string;
-        }
+	index index.php index.html index.htm;
+	server_name _;
 
-        location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
-        }
+	location / {
+		try_files $uri $uri/ /index.php?$query_string;
+	}
+	
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+	}
 
- location ~ /\.ht {
-                        deny all;
-        }
+	location ~ /\.ht {
+		deny all;
+	}
 
-        error_log /var/log/nginx/modul2_error.log;
-        access_log /var/log/nginx/modul2_access.log;
- }
-' > /etc/nginx/sites-available/modul2
+	error_log /var/log/nginx/modul2_error.log;
+	access_log /var/log/nginx/modul2_access.log;
+} ' > /etc/nginx/sites-available/modul2
 
-ln -s /etc/nginx/sites-available/modul2 /etc/nginx/sites-enabled/modul2
+ln -s /etc/nginx/sites-available/modul2 /etc/nginx/sites-enabled
 
-rm -rf /etc/nginx/sites-enabled/default
+rm -f /etc/nginx/sites-enabled/default
 
 service php7.0-fpm start
-
 service nginx reload
-
 service nginx restart
 
 nginx -t
@@ -642,6 +639,14 @@ lynx [ip webserver]
 ```
 
 #### Hasil
+- Prabukusuma
+<img width="609" alt="9prabukusuma" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/2c2df529-a945-4ce4-a2bf-116be3cda94b"><br />
+  
+- Abimanyu
+<img width="584" alt="9abimanyu" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/8aad101c-58aa-41bf-a924-c15a29fdda6c"><br />
+
+- Wisanggeni
+<img width="556" alt="9wisanggeni" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/b8f3eadf-3763-45d5-b91c-ee623139aa2c">
 
 ## Soal 10
 Kemudian gunakan algoritma Round Robin untuk Load Balancer pada Arjuna. Gunakan server_name pada soal nomor 1. Untuk melakukan pengecekan akses alamat web tersebut kemudian pastikan worker yang digunakan untuk menangani permintaan akan berganti ganti secara acak. Untuk webserver di masing-masing worker wajib berjalan di port 8001-8003. Contoh
@@ -652,51 +657,53 @@ Kemudian gunakan algoritma Round Robin untuk Load Balancer pada Arjuna. Gunakan 
 Pertama edit konfigurasi pada Load Balancer (Arjuna) seperti dibawah ini :
 ```
 echo '
- upstream myapp  {
-  server 10.2.3.2:8001; 
-  server 10.2.3.3:8002; 
-  server 10.2.3.4:8003;
- }
+upstream myapp {
+	server 10.2.3.2:8001;
+	server 10.2.3.3:8003;
+	server 10.2.3.4:8003;
+}
 
- server {
-  listen 80;
-  server_name arjuna.A06.com;
+server {
+	listen 80;
+	server_name arjuna.A06.com;
 
-  location / {
-  proxy_pass http://myapp;
-  }
- }' > /etc/nginx/sites-available/lb-modul2
+	location / {
+		proxy_pass http://myapp/;
+	}
+}' > /etc/nginx/sites-available/lb-modul2
 
-service nginx restart
+ln -s /etc/nginx/sites-available/lb-modul2 /etc/nginx/sites-enabled
 ```
 Selanjutnya edit juga konfigurasi pada masing-masing webserver dengan menambahkan port yang telah ditentukan pada soal, dibawah ini merupakan contoh port untuk Prabakusuma : 
 ```
 echo "nameserver 192.168.122.1" > /etc/resolv.conf
 
 echo '
- server {
-        listen 8001;
-        root /var/www/modul2;
-        index index.php index.html index.htm;
-        server_name _;
+server {
+    listen [Port masing-masing worker];
+    root /var/www/modul2;
 
-        location / {
-                        try_files $uri $uri/ /index.php?$query_string;
-        }
+    index index.php index.html index.htm;
+    server_name _;
 
-        location ~ \.php$ {
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
-        }
+    }
 
- location ~ /\.ht {
-                        deny all;
-        }
+    location ~ /\.ht {
+        deny all;
+    }
 
-        error_log /var/log/nginx/modul2_error.log;
-        access_log /var/log/nginx/modul2_access.log;
- }
-' > /etc/nginx/sites-available/modul2
+    error_log /var/log/nginx/modul2_error.log;
+    access_log /var/log/nginx/modul2_access.log;
+}' > /etc/nginx/sites-available/modul2
+
+ln -s /etc/nginx/sites-available/modul2 /etc/nginx/sites-enabled
 
 service nginx restart
 ```
@@ -705,12 +712,55 @@ Lalu, untuk mengetahui hasilnya dapat menggunakan command seperti dibawah ini pa
 `lynx [ip webserver:port]`
 
 #### Hasil
+- Prabukusuma
+<img width="579" alt="10prabukusuma" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/8aab2064-17ea-4142-a226-4905cbc7123c"><br />
+
+- Abimanyu
+<img width="558" alt="10abimanyu" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/4641f6c9-29da-4c34-b3ad-69cdfd39550d"><br />
+
+- Wisanggeni
+<img width="584" alt="10wisanggeni" src="https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/57f5975e-fe13-4f02-8d2b-d0b49afdd0df">
 
 ## Soal 11
 Selain menggunakan Nginx, lakukan konfigurasi Apache Web Server pada worker Abimanyu dengan web server www.abimanyu.yyy.com. Pertama dibutuhkan web server dengan DocumentRoot pada /var/www/abimanyu.yyy
 
 ### Penyelesaian soal 11
+Melakukan setting pada node abimanyu seperti dibawah ini :
+```
+apt-get install apache2 -y
+
+service apache2 start
+
+apt-get install libapache2-mod-php7.0 -y
+
+apt-get install git -y
+
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/abimanyu.A06.com.conf
+
+echo '
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName abimanyu.A06.com
+    ServerAlias www.abimanyu.A06.com
+    DocumentRoot /var/www/abimanyu.A06
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/abimanyu.A06.com.conf
+
+mkdir /var/www/abimanyu.A06
+
+git -c http.sslVerify=false clone https://github.com/yusnaaaaa/jarkom-abimanyu.A06 /var/www/abimanyu.A06
+
+a2ensite abimanyu.A06.com
+
+service apache2 restart
+```
+
+Kemudian untuk mengetahui hasilnya dapat menggunakan command `lynx abimanyu.A06.com` pada client
+
 #### Hasil
+![no11](https://github.com/yusnaaaaa/Jarkom-Modul-2-A06-2023/assets/91377793/bd259207-e17c-40d9-98b4-eac02cba6a9a)
 
 ## Soal 12
 Setelah itu ubahlah agar url www.abimanyu.yyy.com/index.php/home menjadi www.abimanyu.yyy.com/home.
