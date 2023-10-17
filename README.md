@@ -772,24 +772,180 @@ Kemudian untuk mengetahui hasilnya dapat menggunakan command `lynx abimanyu.A06.
 Setelah itu ubahlah agar url www.abimanyu.yyy.com/index.php/home menjadi www.abimanyu.yyy.com/home.
 
 ### Penyelesaian soal 12
+Hal pertama yang ahrus dilakukan adalah mengedit konfigurasi yang ada pada webserver Abimanyu `/var/www/abimanyu.A06./.htaccess` dan `/etc/apache2/sites-available/abimanyu.A06.com.conf` sebagai berikut:
+```
+a2enmod rewrite
+
+service apache2 restart
+
+echo 'RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) /index.php\/$1 [L]' > /var/www/abimanyu.A06./.htaccess
+
+echo '<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/abimanyu.A06
+	ServerName abimanyu.A06.com
+	ServerAlias www.abimanyu.A06.com
+
+	<Directory /var/www/abimanyu.A02>
+		Options +FollowSymLinks -Multiviews
+		AllowOverride All
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/abimanyu.A06.com.conf
+```
+- a2enmod rewrite: Ini adalah perintah yang digunakan pada sistem operasi Linux, khususnya pada distribusi seperti Debian atau Ubuntu, untuk mengaktifkan modul Apache bernama "rewrite". Modul ini digunakan untuk mengkonfigurasi aturan mod_rewrite yang memungkinkan Anda mengubah tampilan URL pada server web Apache.Lalu, untuk melihat hasil dapat menggunakan node clien
+
+Command yang dapat digunakan untuk mengecek/ menjelankannya adalah seperti berikut : 
+```
+lynx www.abimanyu.A06.com/home
+curl www.abimanyu.A06.com/home
+```
+
 #### Hasil
 
 ## Soal 13
 Selain itu, pada subdomain www.parikesit.abimanyu.yyy.com, DocumentRoot disimpan pada /var/www/parikesit.abimanyu.yyy
 
 ### Penyelesaian soal 13
+Hal pertama yang harus dilakukan adalah membuat konfigurasi webserver pada `/etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf`
+```
+echo '<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/parikesit.abimanyu.A06
+	ServerName parikesit.abimanyu.A06.com
+	ServerAlias www.parikesit.abimanyu.A06.com
+
+	<Directory /var/www/abimanyu.A06>
+		Options +FollowSymLinks -Multiviews
+		AllowOverride All
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+
+a2ensite parikesit.abimanyu.A06
+mkdir /var/www/parikesit.abimanyu.A06
+git -c http.sslVerify-false clone https://github.com/bilaaripa/parikesit.abimanyu.A06.git /var/www/parikesit.abimanyu.A06
+service apache2 restart
+```
+- Script siatas akan memasukkan konfigurasi kedalam file `/etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf`
+- melakukan perintah `a2ensite parikesit.abimanyu.A06` Ini adalah perintah yang digunakan untuk mengaktifkan situs web dengan nama "parikesit.abimanyu.A06" pada server web Apache. Ini akan menghubungkan konfigurasi situs web ini dengan server Apache, sehingga situs tersebut dapat diakses melalui server.
+- Metelah itu akan melakukan perintah untuk mengklon repo Git dari URL yang diberikan.
+- Selanjutnya melakukan restart apache2
+
+Command yang dapat digunakan untuk mengecek/ menjelankannya adalah seperti berikut : 
+```
+lynx www.parikesit.abimanyu.A02.com
+```
+
 #### Hasil
 
 ## Soal 14
 Pada subdomain tersebut folder /public hanya dapat melakukan directory listing sedangkan pada folder /secret tidak dapat diakses (403 Forbidden).
 
 ### Penyelesaian soal 14
+Pertama yang harus dilakukan adalah mengedit konfigurasi pada file `/etc/apache2/sites-available/parikesit.abimanyu.A02.com.conf`
+```
+echo '<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/parikesit.abimanyu.A06
+	ServerName parikesit.abimanyu.A06.com
+	ServerAlias www.parikesit.abimanyu.A06.com
+
+	<Directory /var/www/parikesit.abimanyu.A06/public>
+		Options +Indexes
+	</Directory>
+
+	<Directory /var/www/parikesit.abimanyu.A06/secret>
+		Options -Indexes
+	</Directory>
+
+	<Directory /var/www/abimanyu.A06>
+		Options +FollowSymLinks -Multiviews
+		AllowOverride All
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+```
+
+Konfigurasi yang diedit terletak pada bagian
+```
+	<Directory /var/www/parikesit.abimanyu.A06/public>
+		Options +Indexes
+	</Directory>
+
+	<Directory /var/www/parikesit.abimanyu.A06/secret>
+		Options -Indexes
+	</Directory>
+
+	<Directory /var/www/abimanyu.A06>
+		Options +FollowSymLinks -Multiviews
+		AllowOverride All
+	</Directory>
+```
+Pada kode diatas diketahuibahwa folder public dapat dilihat dikarenakan opsi `Options +Indexes` dan folder secret ini tidak dapat dilihat dikarenakan opsi `Options -Indexes`
+
+Lalu hasil dapat dilihat dari node client dengan mengetikkan command:
+```
+lynx www.parikesit.abimanyu.A06.com
+```
+
 #### Hasil
 
 ## Soal 15
 Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode pada Apache. Error kode yang perlu diganti adalah 404 Not Found dan 403 Forbidden.
 
 ### Penyelesaian soal 15
+Untuk memeberikan halaman error yang harus dilakukan adalah dengan mengedit file konfigurasinya : 
+```
+echo '<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/parikesit.abimanyu.A06
+	ServerName parikesit.abimanyu.A06.com
+	ServerAlias www.parikesit.abimanyu.A06.com
+
+	ErrorDocument 404 /error/404.html
+	ErrorDocument 403 /error/403.html
+
+	<Directory /var/www/parikesit.abimanyu.A06/public>
+		Options +Indexes
+	</Directory>
+
+	<Directory /var/www/parikesit.abimanyu.A06/secret>
+		Options -Indexes
+	</Directory>
+
+	<Directory /var/www/abimanyu.A06>
+		Options +FollowSymLinks -Multiviews
+		AllowOverride All
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+service bind9 apache
+```
+Konfigurasi diatas ditambahkan 
+```
+ErrorDocument 404 /error/404.html
+ErrorDocument 403 /error/403.html
+```
+Kode diatas akan mengarahkan pada error tertentu akan menampilkan file tertentu. Dalam code, error 404 akan menampilkan file 404.html yang terdapat pada folder error.
+
+Mari kita coba untuk menampilkan error 404, dengan menuliskan command
+```
+lynx www.parikesit.abimanyu.A06.com/hehehe
+```
+Hasil
+
 #### Hasil
 
 ## Soal 16
@@ -797,28 +953,247 @@ Buatlah suatu konfigurasi virtual host agar file asset www.parikesit.abimanyu.yy
 www.parikesit.abimanyu.yyy.com/js 
 
 ### Penyelesaian soal 16
+Untuk soal no16 kita diminta untuk membuat alias dari `/public/js` menjadi hanya `/js`
+```
+echo '<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/parikesit.abimanyu.A06
+	ServerName parikesit.abimanyu.A06.com
+	ServerAlias www.parikesit.abimanyu.A06.com
+
+	ErrorDocument 404 /error/404.html
+	ErrorDocument 403 /error/403.html
+
+	<Directory /var/www/parikesit.abimanyu.A06/public>
+		Options +Indexes
+	</Directory>
+
+	<Directory /var/www/parikesit.abimanyu.A06/secret>
+		Options -Indexes
+	</Directory>
+
+	<Directory /var/www/abimanyu.A06>
+		Options +FollowSymLinks -Multiviews
+		AllowOverride All
+	</Directory>
+
+	Alias "/js" "/var/www/parikesit.abimanyu.A06/public/js"
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+service apache2 restart
+```
+Maka pada kode diatas terdapat penambahan kode sebagai berikut :
+```
+Alias "/js" "/var/www/parikesit.abimanyu.A06/public/js"
+```
+kode diatas akan memperpendek URL dari /public/js menjadi hanya /js
+Untuk melihat isi js pada URL tersebut. Maka kita jalankan command berikut pada node client
+```
+lynx www.parikesit.abimanyu.A06.com/js
+```
+
 #### Hasil
 
 ## Soal 17
 Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
 
 ### Penyelesaian soal 17
+Pertama ayang harus dilakukan adalah membuat konfigurasi `www.rjp.baratayuda.abimanyu.yyy.com` yang hanya dapat diakses dengan port 14000 yaitu dengan mengedit konfigurasi `/etc/apache2/sites-available/rjp.baratayuda.abimanyu.A02.com.conf` sebagai berikut:
+```
+echo '<VirtualHost *:14000>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/rjp.parikesit.abimanyu.A06
+	ServerName rjp.parikesit.abimanyu.A06.com
+	ServerAlias www.rjp.parikesit.abimanyu.A06.com
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+
+echo '<VirtualHost *:14400>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/rjp.parikesit.abimanyu.A06
+	ServerName rjp.parikesit.abimanyu.A06.com
+	ServerAlias www.rjp.parikesit.abimanyu.A06.com
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' >> /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+```
+Pada code diatas terdapat dua VirtualHost dengan port yang berbeda, yaitu 14000 dan 14400 sesuai yang ada disoal.
+
+Selanjutnya kita tambahkan 2 line pada `/etc/apache2/ports.conf` sebagai berikut
+
+```
+Listen 14000
+Listen 14400
+```
+Selain itu juga kita tambahkan kode dibbawah ini untuk dijalankan:
+```
+a2ensite rjp.baratayuda.abimanyu.A06.com
+mkdir /var/www/rjp.baratayuda.abimanyu.A06
+git -c http.sslVerify-false clone https://github.com/bilaaripa/rjp.baratayuda.abimanyu.A06.git /var/www/rjp.baratayuda.abimanyu.A06
+service apache2 restart
+```
+Untuk melihat hasilnya maka dilakukanlah 2 command berikut
+```
+lynx www.rjp.baratayuda.abimanyu.A06.com:14000
+lynx www.rjp.baratayuda.abimanyu.A06.com:14400
+```
+
 #### Hasil
 
 ## Soal 18
 Untuk mengaksesnya buatlah autentikasi username berupa “Wayang” dan password “baratayudayyy” dengan yyy merupakan kode kelompok. Letakkan DocumentRoot pada /var/www/rjp.baratayuda.abimanyu.yyy.
 
 ### Penyelesaian soal 18
+Hal yang harus dilakukan pertama adalah dengan mengeditan konfigurasi pada `/etc/apache2/sites-available/parikesit.abimanyu.A02.com.conf` sebagai berikut:
+```
+htpasswd -c -b /etc/apache2/.htpasswd Wayang baratayudayy
+echo '<VirtualHost *:14000>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/rjp.parikesit.abimanyu.A06
+	ServerName rjp.parikesit.abimanyu.A06.com
+	ServerAlias www.rjp.parikesit.abimanyu.A06.com
+
+	<Directory "/var/www/rjp.baratayuda.abimanyu.A06">
+		AuthType Basic
+		AuthName "Restricted Content"
+		AuthUserFile /etc/aapache2/.htpasswd
+		Rewuire valid-user
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+
+echo '<VirtualHost *:14400>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/rjp.parikesit.abimanyu.A06
+	ServerName rjp.parikesit.abimanyu.A06.com
+	ServerAlias www.rjp.parikesit.abimanyu.A06.com
+
+	<Directory "/var/www/rjp.baratayuda.abimanyu.A06">
+		AuthType Basic
+		AuthName "Restricted Content"
+		AuthUserFile /etc/aapache2/.htpasswd
+		Rewuire valid-user
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' >> /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+
+service apache2 restart
+```
+Pada kode diatas terdapat perintah :
+```
+htpasswd -c -b /etc/apache2/.htpasswd Wayang baratayudayy
+```
+Perintah `htpasswd` digunakan untuk  menambahkan username dan password ke dalamnya. Perintah pertama htpasswd dengan opsi -c digunakan untuk membuat file .htpasswd di direktori /etc/apache2/ jika belum ada, lalu menambahkan username "Wayang" dan password "baratayudayy". Perintah kedua seharusnya hanya digunakan untuk menambahkan username dan password tambahan ke dalam file .htpasswd yang sudah ada, tetapi dalam kasus ini, akan mencoba membuat file .htpasswd baru dengan data yang sama, yang dapat menimbulkan masalah jika file tersebut sudah ada.
+
+```
+<Directory "/var/www/rjp.baratayuda.abimanyu.A02">
+		AuthType Basic
+		AuthName "Restricted Content"
+		AuthUserFile /etc/aapache2/.htpasswd
+		Require valid-user
+	</Directory>
+```
+- AuthType Basic: Baris ini menentukan tipe autentikasi yang akan digunakan, dalam hal ini adalah autentikasi dasar (Basic). Autentikasi dasar akan meminta pengguna untuk memasukkan username dan password.
+- AuthName "Restricted Content": Ini adalah pesan yang akan ditampilkan kepada pengguna saat mereka diminta untuk memasukkan kredensial autentikasi. Pesan ini muncul dalam dialog autentikasi.
+- AuthUserFile /etc/apache2/.htpasswd: Baris ini menentukan lokasi file yang digunakan untuk menyimpan username dan password yang valid. Di sini, file .htpasswd seharusnya berada di "/etc/apache2/". Namun, ada kesalahan penulisan dalam direktori yang seharusnya "/etc/aapache2/". Harus diperbaiki menjadi "/etc/apache2/".
+- Require valid-user: Ini adalah aturan yang mengharuskan pengguna untuk menjadi "valid-user" yang memiliki kredensial autentikasi yang sah untuk dapat mengakses konten di dalam direktori tersebut. 
+
+Lalu kita jalankan command berikut untuk melihat hasilnya
+```
+lynx www.rjp.baratayuda.abimanyu.A06.com
+```
+
 #### Hasil
 
 ## Soal 19
 Buatlah agar setiap kali mengakses IP dari Abimanyu akan secara otomatis dialihkan ke www.abimanyu.yyy.com (alias)
 
 ### Penyelesaian soal 19
+Pertama kita harusmengedit konfigurasi yang berada di file `/etc/apache2/sites-available/000-default.conf` dengan kode berikut:
+```
+echo '<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html
+
+	RewriteEngine On
+	RewriteCond %{HTTP_HOST} !^abimanyu.A06.com$
+	RewriteRule /.* http://abimanyu.A06.com/ [R]
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+service apache2 restart
+```
+- RewriteEngine On: Baris ini mengaktifkan mod_rewrite di server Apache. Ini adalah perintah yang mengizinkan server web untuk menerapkan aturan mod_rewrite pada permintaan (request) yang masuk.
+- RewriteCond %{HTTP_HOST} !^abimanyu.A06.com$: Ini adalah kondisi pertama yang digunakan untuk mengecek nilai dari variabel HTTP_HOST. Kondisi ini menyatakan bahwa jika HTTP_HOST tidak sama dengan "abimanyu.A06.com", maka aturan di bawahnya akan diterapkan. Ini berarti aturan ini hanya akan berlaku jika host yang diminta tidak sama dengan "abimanyu.A06.com".
+- RewriteRule /.* http://abimanyu.A06.com/ [R]: Ini adalah aturan yang akan diterapkan jika kondisi sebelumnya terpenuhi. Aturan ini akan mengalihkan (redirect) semua permintaan (request) yang masuk (ditandai dengan /.*) ke "http://abimanyu.A06.com/". [R] menunjukkan bahwa ini adalah aturan redirect, sehingga permintaan akan dialihkan ke alamat yang ditentukan. 
+
+Lalu kita jalankan command berikut untuk melihat hasilnya
+```
+lynx 10.2.3.3
+curl 10.2.3.3
+```
+
 #### Hasil
 
 ## Soal 20
 Karena website www.parikesit.abimanyu.yyy.com semakin banyak pengunjung dan banyak gambar gambar random, maka ubahlah request gambar yang memiliki substring “abimanyu” akan diarahkan menuju abimanyu.png.
 
 ### Penyelesaian soal 20
+Pertama kita perlu diaktifkan modul rewrite sebagai berikut pada file `/var/www/parikesit.abimanyu.A06.com/.htaccess` :
+```
+echo 'RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/public/images/(.*)abimanyu(.*)
+RewriteCond %{REQUEST_URI} !/public/images/abimanyu.png
+RewriteRule /.* http://parikesit/abimanyu.A06.com/public/images/abimanyu.png [L]' > /var/www/parikesit.abimanyu.A06.com/.htaccess
+```
+- RewriteCond %{REQUEST_URI} ^/public/images/(.*)abimanyu(.*): Ini adalah kondisi pertama yang digunakan untuk mengecek REQUEST_URI, yaitu bagian dari URL setelah nama domain. Kondisi ini mencocokkan URL yang memiliki /public/images/ diikuti oleh karakter "abimanyu" di dalamnya, dan menangkap apa pun yang ada di antara "abimanyu". Ini akan digunakan dalam aturan selanjutnya.
+- RewriteCond %{REQUEST_URI} !/public/images/abimanyu.png: Ini adalah kondisi kedua yang memeriksa apakah REQUEST_URI adalah "/public/images/abimanyu.png". Jika permintaan adalah untuk berkas "abimanyu.png" di direktori "/public/images/", aturan selanjutnya tidak akan diterapkan.
+- RewriteRule /.* http://parikesit/abimanyu.A06.com/public/images/abimanyu.png [L]': Ini adalah aturan yang akan diterapkan jika kedua kondisi sebelumnya terpenuhi. Aturan ini akan mengalihkan (redirect) semua permintaan yang memenuhi kedua kondisi tersebut ke alamat "http://parikesit/abimanyu.A06.com/public/images/abimanyu.png". [L] menunjukkan bahwa ini adalah aturan terakhir yang akan dieksekusi.
+
+Selanjutnya edit konfigurasi pada file `/etc/apache2/sites-available/parikesit.abimanyu.A02.com.conf` sebagai berikut:
+```
+echo '<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/parikesit.abimanyu.A06
+	ServerName parikesit.abimanyu.A06.com
+	ServerAlias www.parikesit.abimanyu.A026.com
+
+	ErrorDocument 404 /error/404.html
+	ErrorDocument 403 /error/403.html
+
+	<Directory /var/www/parikesit.abimanyu.A06/public>
+		Options +Indexes
+	</Directory>
+
+	<Directory /var/www/parikesit.abimanyu.A06/secret>
+		Options -Indexes
+	</Directory>
+
+	<Directory /var/www/parikesit.abimanyu.A06>
+		Options +FollowSymLinks -Multiviews
+		AllowOverride All
+	</Directory>
+
+	Alias "/js" "/var/www/parikesit.abimanyu.A06/public/js"
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf
+service apache2 restart
+```
+Lalu kita jalankan command berikut untuk melihat hasilnya :
+```
+lynx www.parikesit.abimanyu.A02.com/abimanyugantenk
+```
+
 #### Hasil
