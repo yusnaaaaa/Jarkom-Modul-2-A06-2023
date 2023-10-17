@@ -802,8 +802,8 @@ echo '<VirtualHost *:80>
 
 Command yang dapat digunakan untuk mengecek/ menjelankannya adalah seperti berikut : 
 ```
-lynx www.abimanyu.A06.com/home
-curl www.abimanyu.A06.com/home
+lynx www.abimanyu.A06.com/home //1
+curl www.abimanyu.A06.com/home //2
 ```
 
 #### Hasil
@@ -831,7 +831,7 @@ echo '<VirtualHost *:80>
 
 a2ensite parikesit.abimanyu.A06
 mkdir /var/www/parikesit.abimanyu.A06
-git -c http.sslVerify-false clone https://github.com/bilaaripa/parikesit.abimanyu.A06.git /var/www/parikesit.abimanyu.A06
+git -c http.sslVerify=false clone https://github.com/bilaaripa/parikesit.abimanyu.A06 /var/www/parikesit.abimanyu.A06
 service apache2 restart
 ```
 - Script siatas akan memasukkan konfigurasi kedalam file `/etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf`
@@ -841,7 +841,7 @@ service apache2 restart
 
 Command yang dapat digunakan untuk mengecek/ menjelankannya adalah seperti berikut : 
 ```
-lynx www.parikesit.abimanyu.A02.com
+lynx www.parikesit.abimanyu.A06.com
 ```
 
 #### Hasil
@@ -1000,7 +1000,7 @@ lynx www.parikesit.abimanyu.A06.com/js
 Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
 
 ### Penyelesaian soal 17
-Pertama ayang harus dilakukan adalah membuat konfigurasi `www.rjp.baratayuda.abimanyu.yyy.com` yang hanya dapat diakses dengan port 14000 yaitu dengan mengedit konfigurasi `/etc/apache2/sites-available/rjp.baratayuda.abimanyu.A02.com.conf` sebagai berikut:
+Pertama ayang harus dilakukan adalah membuat konfigurasi `www.rjp.baratayuda.abimanyu.yyy.com` yang hanya dapat diakses dengan port 14000 yaitu dengan mengedit konfigurasi `/etc/apache2/sites-available/rjp.baratayuda.abimanyu.A06.com.conf` sebagai berikut:
 ```
 echo '<VirtualHost *:14000>
 	ServerAdmin webmaster@localhost
@@ -1034,7 +1034,7 @@ Selain itu juga kita tambahkan kode dibbawah ini untuk dijalankan:
 ```
 a2ensite rjp.baratayuda.abimanyu.A06.com
 mkdir /var/www/rjp.baratayuda.abimanyu.A06
-git -c http.sslVerify-false clone https://github.com/bilaaripa/rjp.baratayuda.abimanyu.A06.git /var/www/rjp.baratayuda.abimanyu.A06
+git -c http.sslVerify=false clone https://github.com/bilaaripa/rjp.baratayuda.abimanyu.A06 /var/www/rjp.baratayuda.abimanyu.A06
 service apache2 restart
 ```
 Untuk melihat hasilnya maka dilakukanlah 2 command berikut
@@ -1160,7 +1160,7 @@ RewriteRule /.* http://parikesit/abimanyu.A06.com/public/images/abimanyu.png [L]
 - RewriteCond %{REQUEST_URI} !/public/images/abimanyu.png: Ini adalah kondisi kedua yang memeriksa apakah REQUEST_URI adalah "/public/images/abimanyu.png". Jika permintaan adalah untuk berkas "abimanyu.png" di direktori "/public/images/", aturan selanjutnya tidak akan diterapkan.
 - RewriteRule /.* http://parikesit/abimanyu.A06.com/public/images/abimanyu.png [L]': Ini adalah aturan yang akan diterapkan jika kedua kondisi sebelumnya terpenuhi. Aturan ini akan mengalihkan (redirect) semua permintaan yang memenuhi kedua kondisi tersebut ke alamat "http://parikesit/abimanyu.A06.com/public/images/abimanyu.png". [L] menunjukkan bahwa ini adalah aturan terakhir yang akan dieksekusi.
 
-Selanjutnya edit konfigurasi pada file `/etc/apache2/sites-available/parikesit.abimanyu.A02.com.conf` sebagai berikut:
+Selanjutnya edit konfigurasi pada file `/etc/apache2/sites-available/parikesit.abimanyu.A06.com.conf` sebagai berikut:
 ```
 echo '<VirtualHost *:80>
 	ServerAdmin webmaster@localhost
@@ -1193,7 +1193,7 @@ service apache2 restart
 ```
 Lalu kita jalankan command berikut untuk melihat hasilnya :
 ```
-lynx www.parikesit.abimanyu.A02.com/abimanyugantenk
+lynx www.parikesit.abimanyu.A06.com/abimanyugantenk
 ```
 
 #### Hasil
