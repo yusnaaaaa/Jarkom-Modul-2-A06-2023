@@ -789,7 +789,7 @@ echo '<VirtualHost *:80>
 	ServerName abimanyu.A06.com
 	ServerAlias www.abimanyu.A06.com
 
-	<Directory /var/www/abimanyu.A02>
+	<Directory /var/www/abimanyu.A06>
 		Options +FollowSymLinks -Multiviews
 		AllowOverride All
 	</Directory>
